@@ -39,8 +39,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         const SnackBar(content: Text("Account created successfully!")),
       );
       //navigate logic here will go here
-      print("signup gönderiyor:");
-      print(_usernameController.text);
+
       await Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => RegisterConfirmationScreen()),
@@ -102,23 +101,31 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       TextFormField(
                         controller: _usernameController,
                         decoration: _inputDecoration("User Name"),
-                        validator: (value) =>
-                            value!.isEmpty ? 'Please enter user name' : null,
+                        validator:
+                            (value) =>
+                                value!.isEmpty
+                                    ? 'Please enter user name'
+                                    : null,
                       ),
                       const SizedBox(height: 15),
                       TextFormField(
                         controller: _firstNameController,
                         decoration: _inputDecoration("First Name"),
-                        validator: (value) => value!.isEmpty
-                            ? 'Please enter first name'
-                            : null, //later check excistance of username
+                        validator:
+                            (value) =>
+                                value!.isEmpty
+                                    ? 'Please enter first name'
+                                    : null, //later check excistance of username
                       ),
                       const SizedBox(height: 15),
                       TextFormField(
                         controller: _lastNameController,
                         decoration: _inputDecoration("Last Name"),
-                        validator: (value) =>
-                            value!.isEmpty ? 'Please enter last name' : null,
+                        validator:
+                            (value) =>
+                                value!.isEmpty
+                                    ? 'Please enter last name'
+                                    : null,
                       ),
                       const SizedBox(height: 15),
                       TextFormField(
@@ -143,9 +150,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         controller: _passwordController,
                         obscureText: true,
                         decoration: _inputDecoration("Password"),
-                        validator: (value) => value != null && value.length >= 6
-                            ? null
-                            : 'Password must be at least 6 characters',
+                        validator:
+                            (value) =>
+                                value != null && value.length >= 6
+                                    ? null
+                                    : 'Password must be at least 6 characters',
                       ),
                       const SizedBox(height: 15),
                       TextFormField(

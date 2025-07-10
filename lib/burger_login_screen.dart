@@ -118,8 +118,7 @@ class _BurgerLoginScreenState extends State<BurgerLoginScreen> {
                   final result = await Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => SignUpScreen()),
                   );
-                  print("logine gelen:");
-                  print(result);
+
                   if (result != null && result is Map<String, String>) {
                     setState(() {
                       _usernameController.text = result['username']!;
