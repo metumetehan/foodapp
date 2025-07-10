@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:kendin_ye/burger_login_screen.dart';
-import 'package:kendin_ye/sign_up_screen.dart';
 
 void main() {
   runApp(const MyApp());
