@@ -92,13 +92,6 @@ class RegisterConfirmationScreen extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.w900,
-                                    shadows: [
-                                      Shadow(
-                                        color: Colors.black,
-                                        offset: Offset(1, 1),
-                                        blurRadius: 0,
-                                      ),
-                                    ],
                                   ),
                                 ),
                                 SizedBox(height: 12),
@@ -119,9 +112,8 @@ class RegisterConfirmationScreen extends StatelessWidget {
                                 bottomRight: Radius.circular(20),
                               ),
                             ),
-                            width:
-                                double
-                                    .infinity, // ✅ this now only expands to 300 width
+                            width: double
+                                .infinity, // ✅ this now only expands to 300 width
                             child: TextButton(
                               onPressed: () {
                                 Navigator.pop(context);
