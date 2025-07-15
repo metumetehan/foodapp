@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kendin_ye/burger_login_screen.dart';
-import 'package:kendin_ye/ingredient_selector.dart';
+import 'package:kendin_ye/presentation/screens/burger_login_screen.dart';
+import 'package:kendin_ye/presentation/screens/ingredient_selector.dart';
 import 'package:kendin_ye/login_screen_animated.dart';
 
 void main() {
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginScreenAnimated(),
+      home: BurgerLoginScreen(),
     );
   }
 }

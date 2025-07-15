@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kendin_ye/animated_burger.dart';
-import 'package:kendin_ye/sign_up_screen.dart';
+import 'package:kendin_ye/presentation/screens/animated_burger.dart';
+import 'package:kendin_ye/presentation/screens/sign_up_screen.dart';
 
 class BurgerLoginScreen extends StatefulWidget {
   const BurgerLoginScreen({super.key});
