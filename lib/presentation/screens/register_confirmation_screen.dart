@@ -1,26 +1,31 @@
 import 'package:flutter/material.dart';
+import '../../core/localization/app_localizations.dart';
 
 class RegisterConfirmationScreen extends StatelessWidget {
   const RegisterConfirmationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context).translate;
+
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color(0xFFFF7700),
+        toolbarHeight: 50,
+      ),
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
-              //height: MediaQuery.of(context).size.height,
               child: Column(
                 children: [
-                  // Orange header with logo and curve
                   Stack(
                     clipBehavior: Clip.none,
                     children: [
                       Container(
-                        height: 320,
+                        height: 230,
                         decoration: const BoxDecoration(
                           color: Color(0xFFFF7700),
                           borderRadius: BorderRadius.only(
@@ -30,15 +35,15 @@ class RegisterConfirmationScreen extends StatelessWidget {
                         ),
                       ),
                       Positioned.fill(
-                        top: 0,
+                        top: -30,
                         child: Center(
-                          child: Image.asset("assets/kendin_ye_logo2.png"),
+                          child: Image.asset(
+                            "assets/images/logos/kendin_ye_logo2.png",
+                          ),
                         ),
                       ),
-
-                      // Check icon
                       Positioned(
-                        bottom: -50, // adjust as needed
+                        bottom: -50,
                         left: 0,
                         right: 0,
                         child: Center(
@@ -46,14 +51,13 @@ class RegisterConfirmationScreen extends StatelessWidget {
                             width: 100,
                             height: 100,
                             decoration: BoxDecoration(
-                              color: Color(0xFFFF7700),
+                              color: const Color(0xFFFF7700),
                               border: Border.all(
                                 color: Colors.white,
                                 width: 10,
                               ),
                               borderRadius: BorderRadius.circular(100),
                             ),
-
                             child: const Icon(
                               Icons.check_rounded,
                               color: Colors.white,
@@ -64,13 +68,11 @@ class RegisterConfirmationScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-
                   const SizedBox(height: 120),
-
                   Align(
                     alignment: Alignment.center,
                     child: Container(
-                      width: 300, // ✅ Set fixed width similar to the image
+                      width: 300,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20),
@@ -85,25 +87,24 @@ class RegisterConfirmationScreen extends StatelessWidget {
                               horizontal: 16,
                             ),
                             child: Column(
-                              children: const [
+                              children: [
                                 Text(
-                                  'Your account has\nbeen registered!',
+                                  t('registration_successful'),
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.w900,
                                   ),
                                 ),
-                                SizedBox(height: 12),
+                                const SizedBox(height: 12),
                                 Text(
-                                  'Welcome to\nKendin Ye',
+                                  t('welcome'),
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(fontSize: 16),
+                                  style: const TextStyle(fontSize: 16),
                                 ),
                               ],
                             ),
                           ),
-                          // Orange bottom button
                           Container(
                             decoration: const BoxDecoration(
                               color: Color(0xFFFF7700),
@@ -112,15 +113,14 @@ class RegisterConfirmationScreen extends StatelessWidget {
                                 bottomRight: Radius.circular(20),
                               ),
                             ),
-                            width: double
-                                .infinity, // ✅ this now only expands to 300 width
+                            width: double.infinity,
                             child: TextButton(
                               onPressed: () {
                                 Navigator.pop(context);
                               },
-                              child: const Text(
-                                'OK',
-                                style: TextStyle(
+                              child: Text(
+                                t('ok'),
+                                style: const TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                 ),

@@ -30,6 +30,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.20.2
   custom_refresh_indicator: ^1.0.0
   rive: ^0.12.4
 
@@ -61,6 +64,17 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
+    - assets/icons/
+    - assets/images/
+    - assets/images/foods/
+    - assets/images/ingredients/
+    - assets/images/ingredients/temp/
+    - assets/images/ingredients/burger_patty/
+    - assets/images/ingredients/sushi/
+    - assets/images/ingredients/toppings/
+    - assets/images/logos/
+    - assets/images/profile_images/
+    - assets/rive/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -75,9 +89,15 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: Segoe UI
+    - family: SegoeUI
       fonts:
-        - asset: assets/fonts/segoe_ui.ttf
+        - asset: assets/fonts/segoeui.ttf # Regular
+        - asset: assets/fonts/segoeuib.ttf # Bold
+          weight: 700
+        - asset: assets/fonts/segoeuii.ttf # Italic
+          style: italic
+        - asset: assets/fonts/segoeuiz.ttf # Semibold or other variants (optional)
+          weight: 600
 
   # fonts:
   #   - family: Schyler

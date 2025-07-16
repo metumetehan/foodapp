@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kendin_ye/presentation/screens/register_confirmation_screen.dart';
+import 'package:kendin_ye/data/models/user.dart';
+import '../../core/localization/app_localizations.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -33,33 +34,35 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void _submit() async {
+    final t = AppLocalizations.of(context).translate;
     if (_formKey.currentState!.validate() && _acceptTerms) {
-      // Submit form logic
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Account created successfully!")),
+      User newUser = User(
+        username: _usernameController.text.trim(),
+        password: _passwordController.text,
+        firstName: _firstNameController.text.trim(),
+        lastName: _lastNameController.text.trim(),
+        phoneNumber: _telController.text.trim(),
+        profileImage: "assets/images/profile_images/default_profile.png",
       );
-      //navigate logic here will go here
-
-      await Navigator.push(
+      registerUser(newUser);
+      ScaffoldMessenger.of(
         context,
-        MaterialPageRoute(builder: (context) => RegisterConfirmationScreen()),
-      );
-
-      // Registration confirmed → return credentials to login
+      ).showSnackBar(SnackBar(content: Text(t('account_created'))));
+      await Navigator.pushNamed(context, '/confirmation');
       Navigator.pop(context, {
         'username': _usernameController.text,
         'password': _passwordController.text,
       });
     } else if (!_acceptTerms) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("You must accept the policy and terms.")),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(t('must_accept_terms'))));
     }
   }
 
-  InputDecoration _inputDecoration(String hint) {
+  InputDecoration _inputDecoration(String key) {
     return InputDecoration(
-      hintText: hint,
+      hintText: AppLocalizations.of(context).translate(key),
       hintStyle: const TextStyle(fontStyle: FontStyle.italic),
       border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
     );
@@ -67,6 +70,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context).translate;
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -77,7 +81,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               children: <Widget>[
                 Expanded(
                   child: ListView(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     children: [
                       Row(
                         children: [
@@ -86,9 +90,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             onPressed: () => Navigator.of(context).pop(),
                           ),
                           const Spacer(),
-                          const Text(
-                            "Create New Account",
-                            style: TextStyle(
+                          Text(
+                            t('create_account'),
+                            style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                               color: Color(0xFFFF7700),
@@ -100,39 +104,38 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       const SizedBox(height: 20),
                       TextFormField(
                         controller: _usernameController,
-                        decoration: _inputDecoration("User Name"),
+                        decoration: _inputDecoration('username'),
                         validator: (value) =>
-                            value!.isEmpty ? 'Please enter user name' : null,
+                            value!.isEmpty ? t('enter_username') : null,
                       ),
                       const SizedBox(height: 15),
                       TextFormField(
                         controller: _firstNameController,
-                        decoration: _inputDecoration("First Name"),
-                        validator: (value) => value!.isEmpty
-                            ? 'Please enter first name'
-                            : null, //later check excistance of username
+                        decoration: _inputDecoration('first_name'),
+                        validator: (value) =>
+                            value!.isEmpty ? t('enter_first_name') : null,
                       ),
                       const SizedBox(height: 15),
                       TextFormField(
                         controller: _lastNameController,
-                        decoration: _inputDecoration("Last Name"),
+                        decoration: _inputDecoration('last_name'),
                         validator: (value) =>
-                            value!.isEmpty ? 'Please enter last name' : null,
+                            value!.isEmpty ? t('enter_last_name') : null,
                       ),
                       const SizedBox(height: 15),
                       TextFormField(
                         controller: _telController,
                         keyboardType: TextInputType.phone,
-                        decoration: _inputDecoration("Tel. Number"),
+                        decoration: _inputDecoration('phone_number'),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Enter phone number';
+                            return t('enter_phone');
                           } else if (value.length < 10) {
-                            return 'Phone number is too short';
+                            return t('phone_too_short');
                           } else if (value.length > 15) {
-                            return 'Phone number is too long';
-                          } else if (!RegExp(r'^\d{10,15}$').hasMatch(value)) {
-                            return 'Invalid phone number';
+                            return t('phone_too_long');
+                          } else if (RegExp(r'^\d{10,15}\$').hasMatch(value)) {
+                            return t('invalid_phone');
                           }
                           return null;
                         },
@@ -141,19 +144,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       TextFormField(
                         controller: _passwordController,
                         obscureText: true,
-                        decoration: _inputDecoration("Password"),
+                        decoration: _inputDecoration('password'),
                         validator: (value) => value != null && value.length >= 6
                             ? null
-                            : 'Password must be at least 6 characters',
+                            : t('password_min_length'),
                       ),
                       const SizedBox(height: 15),
                       TextFormField(
                         controller: _confirmPasswordController,
                         obscureText: true,
-                        decoration: _inputDecoration("Confirm Password"),
+                        decoration: _inputDecoration('confirm_password'),
                         validator: (value) {
                           if (value != _passwordController.text) {
-                            return 'Passwords do not match';
+                            return t('password_mismatch');
                           }
                           return null;
                         },
@@ -167,10 +170,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               setState(() => _acceptTerms = value!);
                             },
                           ),
-                          const Expanded(
+                          Expanded(
                             child: Text(
-                              "I accept the policy and terms",
-                              style: TextStyle(fontStyle: FontStyle.italic),
+                              t('accept_terms'),
+                              style: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                              ),
                             ),
                           ),
                         ],
@@ -180,9 +185,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 ElevatedButton(
                   onPressed: _submit,
-
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFFF7700),
+                    backgroundColor: const Color(0xFFFF7700),
                     padding: const EdgeInsets.symmetric(
                       horizontal: 40,
                       vertical: 14,
@@ -191,16 +195,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       borderRadius: BorderRadius.circular(30),
                     ),
                   ),
-                  child: const Text(
-                    "Sign Up",
-                    style: TextStyle(
+                  child: Text(
+                    t('sign_up'),
+                    style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
                   ),
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
               ],
             ),
           ),

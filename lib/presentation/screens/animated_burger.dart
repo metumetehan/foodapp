@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:kendin_ye/main.dart';
 import 'package:rive/rive.dart';
 
 class AnimatedBurger extends StatefulWidget {
-  const AnimatedBurger({super.key});
+  final ThemeMode themeMode;
+  const AnimatedBurger({super.key, required this.themeMode});
 
   @override
   State<AnimatedBurger> createState() => _AnimatedBurgerState();
@@ -16,34 +18,53 @@ class _AnimatedBurgerState extends State<AnimatedBurger> {
   @override
   void initState() {
     super.initState();
+    _loadRiveArtboard(); // Initial load
+  }
 
-    // Load Rive file
-    rootBundle.load('assets/burgasm_interactive_design.riv').then((data) {
-      final file = RiveFile.import(data);
-      final artboard = file.mainArtboard;
+  @override
+  void didUpdateWidget(covariant AnimatedBurger oldWidget) {
+    super.didUpdateWidget(oldWidget);
 
-      final controller = StateMachineController.fromArtboard(
-        artboard,
-        'State Machine 1',
-      );
+    // If theme mode changed, reload the correct Rive file
+    if (widget.themeMode != oldWidget.themeMode) {
+      _loadRiveArtboard();
+    }
+  }
 
-      if (controller != null) {
-        artboard.addController(controller);
+  void _loadRiveArtboard() async {
+    final path = widget.themeMode == ThemeMode.light
+        ? 'assets/rive/burgasm_interactive_design.riv'
+        : 'assets/rive/burgasm_interactive_design_realistic.riv';
 
-        // Find the SMIBool input named "tap"
-        final input = controller.findInput<bool>('tap');
-        if (input is SMIBool) {
-          _tapInput = input;
-        }
+    final data = await rootBundle.load(path);
+    final file = RiveFile.import(data);
+    final newArtboard = file.mainArtboard;
+
+    final controller = StateMachineController.fromArtboard(
+      newArtboard,
+      'State Machine 1',
+    );
+
+    SMIBool? newTapInput;
+
+    if (controller != null) {
+      newArtboard.addController(controller);
+      final input = controller.findInput<bool>('tap');
+      if (input is SMIBool) {
+        newTapInput = input;
       }
+    }
 
-      setState(() => _artboard = artboard);
+    // Swap only after everything is ready
+    setState(() {
+      _artboard = newArtboard;
+      _tapInput = newTapInput;
     });
   }
 
   void _onTap() {
     if (_tapInput != null) {
-      _tapInput!.value = !_tapInput!.value; // toggle
+      _tapInput!.value = !_tapInput!.value;
     }
   }
 
@@ -54,9 +75,20 @@ class _AnimatedBurgerState extends State<AnimatedBurger> {
       child: SizedBox(
         width: 200,
         height: 200,
-        child: _artboard == null
-            ? const Center(child: CircularProgressIndicator())
-            : Rive(artboard: _artboard!),
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          child: _artboard == null
+              ? const Center(
+                  key: ValueKey('loading'),
+                  child: CircularProgressIndicator(),
+                )
+              : SizedBox(
+                  key: ValueKey(_artboard), // <--- give key to wrapper
+                  width: 200,
+                  height: 200,
+                  child: Rive(artboard: _artboard!),
+                ),
+        ),
       ),
     );
   }
