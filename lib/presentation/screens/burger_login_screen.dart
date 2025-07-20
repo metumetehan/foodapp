@@ -17,6 +17,7 @@ class _BurgerLoginScreenState extends State<BurgerLoginScreen> {
 
   void _login() {
     final t = AppLocalizations.of(context).translate;
+    final isRealistic = AppLocalizations.of(context).isRealistic;
     final username = _usernameController.text.trim();
     final password = _passwordController.text;
 
@@ -37,7 +38,7 @@ class _BurgerLoginScreenState extends State<BurgerLoginScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFFFF7700),
+        backgroundColor: Theme.of(context).primaryColor,
         toolbarHeight: 50,
         actions: [
           PopupMenuButton<String>(
@@ -63,7 +64,7 @@ class _BurgerLoginScreenState extends State<BurgerLoginScreen> {
           ),
         ],
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).colorScheme.onPrimary,
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -78,8 +79,8 @@ class _BurgerLoginScreenState extends State<BurgerLoginScreen> {
                       children: [
                         Container(
                           height: 230,
-                          decoration: const BoxDecoration(
-                            color: Color(0xFFFF7700),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).primaryColor,
                             borderRadius: BorderRadius.only(
                               bottomLeft: Radius.circular(120),
                               bottomRight: Radius.circular(120),
@@ -127,7 +128,7 @@ class _BurgerLoginScreenState extends State<BurgerLoginScreen> {
                   const SizedBox(height: 20),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFFF7700),
+                      backgroundColor: Theme.of(context).primaryColor,
                       padding: const EdgeInsets.symmetric(
                         horizontal: 40,
                         vertical: 14,
@@ -139,10 +140,10 @@ class _BurgerLoginScreenState extends State<BurgerLoginScreen> {
                     onPressed: _login,
                     child: Text(
                       t("sign_in"),
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: Theme.of(context).colorScheme.onPrimary,
                       ),
                     ),
                   ),
@@ -168,8 +169,8 @@ class _BurgerLoginScreenState extends State<BurgerLoginScreen> {
                 },
                 child: Text(
                   t("create_account"),
-                  style: const TextStyle(
-                    color: Color(0xFFFF7700),
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                   ),
@@ -198,7 +199,7 @@ class _BurgerLoginScreenState extends State<BurgerLoginScreen> {
           hintText: hint,
           hintStyle: const TextStyle(color: Colors.grey),
           filled: true,
-          fillColor: Colors.white,
+          fillColor: Theme.of(context).colorScheme.onPrimary,
           contentPadding: const EdgeInsets.symmetric(vertical: 18),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
@@ -206,7 +207,10 @@ class _BurgerLoginScreenState extends State<BurgerLoginScreen> {
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: const BorderSide(color: Color(0xFFFF7700), width: 2),
+            borderSide: BorderSide(
+              color: Theme.of(context).primaryColor,
+              width: 2,
+            ),
           ),
         ),
       ),

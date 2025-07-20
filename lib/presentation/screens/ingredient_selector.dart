@@ -1,6 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:kendin_ye/core/localization/app_localizations.dart';
+import 'package:kendin_ye/data/globals.dart';
+import 'package:kendin_ye/data/models/food_item.dart';
 
 class IngredientSelector extends StatefulWidget {
   const IngredientSelector({super.key});
@@ -10,50 +13,58 @@ class IngredientSelector extends StatefulWidget {
 }
 
 class _IngredientSelectorState extends State<IngredientSelector> {
-  List<String> listem = [
-    "assets/images/ingredients/burger_patty/Cheese-Stuffed_Beef_Patty.png",
-    "assets/images/ingredients/burger_patty/Chicken_Katsu.png",
-    "assets/images/ingredients/burger_patty/Chorizo_Patty_spicy.png",
-    "assets/images/ingredients/burger_patty/Crispy_Fried_Chicken_Fillet.png",
-    "assets/images/ingredients/burger_patty/Salmon_Steak.png",
-    "assets/images/ingredients/burger_patty/Soft_Shell_Crab.png",
-    "assets/images/ingredients/toppings/cheese.png",
-    "assets/images/ingredients/toppings/lettuce.png",
-    "assets/images/ingredients/toppings/tomato.png",
-    "assets/images/ingredients/toppings/tomato2.png",
-  ];
+  List<FoodItem> listem = globalFoodItems
+      .where((i) => i.category == FoodCategory.ingredient)
+      .toList();
 
-  int _currentPage = 0;
+  final int _currentPage = 0;
   late PageController _pageController;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _pageController = PageController(
       initialPage: _currentPage,
       viewportFraction: 0.55,
     );
+    _imageList = [
+      "assets/images/ingredients/buns/bottom_bun.png",
+      "assets/images/ingredients/buns/top_bun.png",
+    ];
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _pageController.dispose();
   }
 
-  final List<String> _imageList = [
-    "assets/images/ingredients/buns/bottom_bun.png",
-    "assets/images/ingredients/buns/top_bun.png",
-  ];
+  List<String> _imageList = [];
   void _addImage(String img) {
     setState(() {
       _imageList.insert(_imageList.length - 1, img);
     });
   }
 
+  String _imagePath(String original) {
+    if (original.isEmpty) {
+      return original;
+    }
+    if (Theme.of(context).brightness == Brightness.dark) {
+      final segments = original.split('/');
+      if (segments.length > 1 &&
+          (segments.contains('buns') || segments.contains('burger_patty'))) {
+        // insert 'realistic' folder before the file name
+        segments.insert(segments.length - 1, 'realistic');
+        return segments.join('/');
+      }
+    }
+    return original;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final translate = AppLocalizations.of(context).translate;
+    final isTurkish = AppLocalizations.of(context).isTurkish;
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 40.0),
@@ -65,7 +76,7 @@ class _IngredientSelectorState extends State<IngredientSelector> {
                 "Burger Köftesi",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: Colors.black87,
+                  color: Theme.of(context).colorScheme.onSurface,
                   fontSize: 30,
                 ),
               ),
@@ -92,7 +103,7 @@ class _IngredientSelectorState extends State<IngredientSelector> {
                     Positioned(
                       bottom: i * 15.0,
                       child: Image.asset(
-                        _imageList[i],
+                        _imagePath(_imageList[i]),
                         width: 100,
                         height: 100,
                       ),
@@ -145,7 +156,7 @@ class _IngredientSelectorState extends State<IngredientSelector> {
             child: Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(listem[index]),
+                  image: AssetImage(_imagePath(listem[index].imageName)),
                   fit: BoxFit.fill,
                 ),
               ),
@@ -158,7 +169,7 @@ class _IngredientSelectorState extends State<IngredientSelector> {
         ),
         ElevatedButton(
           onPressed: () {
-            _addImage(listem[index]);
+            _addImage(listem[index].imageName);
             setState(() {});
           },
           child: const Text("Add Ingredient"),

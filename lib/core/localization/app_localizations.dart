@@ -1,12 +1,15 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:kendin_ye/main.dart';
 
 class AppLocalizations {
   final Locale locale;
 
   AppLocalizations(this.locale);
-
+  bool get isTurkish => locale.languageCode == 'tr';
+  bool get isRealistic =>
+      GlobalKey<MyAppState>().currentState?.themeMode == ThemeMode.dark;
   static const LocalizationsDelegate<AppLocalizations> delegate =
       _AppLocalizationsDelegate();
 
@@ -60,6 +63,37 @@ class AppLocalizations {
       'profile': 'Profile',
       'settings': 'Settings',
       'logout': 'Logout',
+      'best_deals': 'Best Deals!',
+      'added_to_cart': 'is added to your cart.',
+      'removed_from_cart': 'is removed from your cart.',
+      'add_to_cart': 'Add To Cart',
+      'shopping_cart': 'Shopping Cart',
+      'empty_cart': 'Your cart is empty!',
+      'total': 'Total',
+      'checkout': 'Checkout',
+
+      'burger': 'Burger',
+      'chicken': 'Chicken',
+      'fries': 'Fries',
+      'sandwich': 'Sandwich',
+      'soda': 'Soda',
+      'breakfast': 'Breakfast',
+      'pizza': 'Pizza',
+
+      //Food Detail Screen
+      'view_ingredients': 'View Ingredients',
+      'price': 'Price',
+      'rating': 'Rating',
+      'likes': 'Likes',
+      'nutritional_information': 'Nutritional Information',
+      'calories': 'Calories',
+      'total_fat': 'Total Fat',
+      'total_carbs': 'Total Carbs',
+      'coming_soon': 'Coming Soon',
+
+      //Ingredients Screen
+      'ingredients': 'INGREDIENTS',
+      'view_nutrition_summary': 'VIEW\nNUTRITION\nSUMMARY',
     },
     'tr': {
       //Logo
@@ -106,6 +140,37 @@ class AppLocalizations {
       'profile': 'Profil',
       'settings': 'Ayarlar',
       'logout': 'Çıkış Yap',
+      'best_deals': 'En Çok Tercih Edilenler',
+      'added_to_cart': 'sepetinize eklendi.',
+      'removed_from_cart': 'sepetinizden kaldırıldı.',
+      'add_to_cart': 'Sepete Ekle',
+      'shopping_cart': 'Alışveriş Sepeti',
+      'empty_cart': 'Sepetiniz Boş!',
+      'total': 'Toplam',
+      'checkout': 'Ödeme Yap',
+
+      'burger': 'Burger',
+      'chicken': 'Tavuk',
+      'fries': 'Kızartmalar',
+      'sandwich': 'Sandviç',
+      'soda': 'Gazlı İçecek',
+      'breakfast': 'Kahvaltı',
+      'pizza': 'Pizza',
+
+      //Food Detail Screen
+      'view_ingredients': 'İçeriklerini Gör',
+      'price': 'Ücret',
+      'rating': 'Puan',
+      'likes': 'Beğenilme',
+      'nutritional_information': 'Besin Değerleri',
+      'calories': 'Calori',
+      'total_fat': 'Toplam Yağ',
+      'total_cabs': 'Toplam Karb',
+      'coming_soon': 'Yakında Sizlerle',
+
+      //Ingredients Screen
+      'ingredients': 'İÇERİKLERİ',
+      'view_nutrition_summary': 'BESİN\nDEĞERLERİNİ\nGÖSTER',
     },
   };
 
