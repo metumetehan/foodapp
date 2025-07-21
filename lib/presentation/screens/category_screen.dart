@@ -68,6 +68,8 @@ class CategoryScreen extends StatelessWidget {
         return isTurkish ? 'Kahvaltılar' : 'Breakfasts';
       case FoodCategory.ingredient:
         return isTurkish ? 'İçerikler' : 'Ingredients';
+      case FoodCategory.sushi:
+        return isTurkish ? 'Suşi' : 'Sushi';
     }
   }
 }

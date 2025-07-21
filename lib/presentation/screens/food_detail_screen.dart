@@ -189,7 +189,7 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "550 CAL.",
+                                        "${widget.foodItem.calories} CAL.",
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 16,

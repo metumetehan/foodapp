@@ -12,6 +12,7 @@ enum FoodCategory {
   soda,
   breakfast,
   ingredient,
+  sushi,
 }
 
 class EnumValues<T> {
@@ -30,6 +31,7 @@ final foodCategoryValues = EnumValues<FoodCategory>({
   "Soda": FoodCategory.soda,
   "Breakfast": FoodCategory.breakfast,
   "Ingredient": FoodCategory.ingredient,
+  "Sushi": FoodCategory.sushi,
 });
 
 FoodItem foodItemFromJson(String str) => FoodItem.fromJson(json.decode(str));

@@ -306,6 +306,18 @@ class _MainScreenState extends State<MainScreen>
                           currentUser = updated;
                         });
                       }
+                    } else if (value == 1) {
+                      // Navigate and await updated user
+                      final updated =
+                          await Navigator.of(
+                                context,
+                              ).pushNamed('/settings', arguments: currentUser)
+                              as User?;
+                      if (updated != null) {
+                        setState(() {
+                          currentUser = updated;
+                        });
+                      }
                     } else if (value == 2) {
                       Navigator.pushReplacementNamed(context, '/');
                     }
@@ -433,10 +445,39 @@ class _MainScreenState extends State<MainScreen>
                       "assets/icons/burger_renkli.png",
                       width: 30,
                       height: 30,
+                      fit: BoxFit.contain,
                     ),
                     const SizedBox(height: 4),
                     Text(
                       AppLocalizations.of(context).translate("burger"),
+                      style: TextStyle(
+                        fontFamily: 'SegoeUI',
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/sushi');
+                },
+                child: Column(
+                  children: [
+                    Image.asset(
+                      "assets/icons/sushi_renkli.png",
+                      width: 30,
+                      height: 30,
+                      fit: BoxFit.contain,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      AppLocalizations.of(context).translate("sushi"),
                       style: TextStyle(
                         fontFamily: 'SegoeUI',
                         fontSize: 12,
@@ -487,7 +528,7 @@ class _MainScreenState extends State<MainScreen>
         .where((f) => f.category != FoodCategory.ingredient)
         .toList();
     nonIngredientItems.sort(
-      ((a, b) => a.rating.compareTo(b.rating)),
+      ((a, b) => (-1 * a.rating).compareTo((-1 * b.rating))),
     ); //en son burda kaldım
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

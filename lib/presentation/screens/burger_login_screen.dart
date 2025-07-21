@@ -148,9 +148,22 @@ class _BurgerLoginScreenState extends State<BurgerLoginScreen> {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  Text(
-                    t("forgot_password"),
-                    style: const TextStyle(color: Colors.grey),
+                  GestureDetector(
+                    onTap: () => ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        duration: Duration(seconds: 3),
+                        content: Text(
+                          AppLocalizations.of(
+                            context,
+                          ).translate('forgot_password_message'),
+                          style: TextStyle(fontSize: 24),
+                        ),
+                      ),
+                    ),
+                    child: Text(
+                      t("forgot_password"),
+                      style: const TextStyle(color: Colors.grey),
+                    ),
                   ),
                 ],
               ),
